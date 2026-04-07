@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Progress Report — Hardware B2B Platform</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #e8edf2;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            padding: 24px;
+        }
+
+        .page {
+            width: 210mm;
+            min-height: 297mm;
+            background: #ffffff;
+            padding: 14mm 16mm 14mm 16mm;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.15);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        /* ── Header ── */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            border-bottom: 3px solid #1565c0;
+            padding-bottom: 8px;
+        }
+        .header-left h1 {
+            font-size: 17px;
+            color: #1565c0;
+            font-weight: 700;
+            letter-spacing: 0.3px;
+        }
+        .header-left p {
+            font-size: 9.5px;
+            color: #546e7a;
+            margin-top: 2px;
+        }
+        .header-right {
+            text-align: right;
+        }
+        .badge {
+            display: inline-block;
+            background: #1565c0;
+            color: #fff;
+            font-size: 8.5px;
+            font-weight: 600;
+            padding: 3px 9px;
+            border-radius: 12px;
+            letter-spacing: 0.4px;
+        }
+        .header-right p {
+            font-size: 8.5px;
+            color: #78909c;
+            margin-top: 4px;
+        }
+
+        /* ── Section title ── */
+        .section-title {
+            font-size: 9px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: #1565c0;
+            border-left: 3px solid #1565c0;
+            padding-left: 6px;
+            margin-bottom: 5px;
+        }
+
+        /* ── KPI row ── */
+        .kpi-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 7px;
+        }
+        .kpi-card {
+            background: #f0f4ff;
+            border-radius: 6px;
+            padding: 8px 10px;
+            border-top: 3px solid #1565c0;
+            text-align: center;
+        }
+        .kpi-card .num {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1565c0;
+            line-height: 1;
+        }
+        .kpi-card .label {
+            font-size: 8px;
+            color: #546e7a;
+            margin-top: 2px;
+        }
+
+        /* ── Two-column layout ── */
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        /* ── Phase table ── */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 8.5px;
+        }
+        thead tr {
+            background: #1565c0;
+            color: #fff;
+        }
+        thead th {
+            padding: 5px 7px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 8px;
+            letter-spacing: 0.3px;
+        }
+        tbody tr:nth-child(even) { background: #f5f7ff; }
+        tbody td {
+            padding: 4.5px 7px;
+            color: #37474f;
+            vertical-align: middle;
+        }
+        .pill {
+            display: inline-block;
+            padding: 1.5px 7px;
+            border-radius: 10px;
+            font-size: 7.5px;
+            font-weight: 600;
+        }
+        .pill-done   { background: #e8f5e9; color: #2e7d32; }
+        .pill-prog   { background: #fff8e1; color: #f57f17; }
+        .pill-pend   { background: #fce4ec; color: #c62828; }
+
+        /* ── Feature grid ── */
+        .feature-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4px;
+        }
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 8.5px;
+            color: #37474f;
+        }
+        .dot {
+            width: 7px; height: 7px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+        .dot-done { background: #43a047; }
+        .dot-prog { background: #fb8c00; }
+        .dot-pend { background: #e53935; }
+
+        /* ── Progress bars ── */
+        .bar-row {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        .bar-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 8px;
+            color: #546e7a;
+            margin-bottom: 2px;
+        }
+        .bar-track {
+            height: 7px;
+            background: #e3e8f0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .bar-fill {
+            height: 100%;
+            border-radius: 4px;
+            background: linear-gradient(90deg, #1565c0, #42a5f5);
+        }
+
+        /* ── Risk table ── */
+        .risk-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 6px;
+            font-size: 8.5px;
+            color: #37474f;
+            margin-bottom: 4px;
+        }
+        .risk-badge {
+            font-size: 7.5px;
+            font-weight: 700;
+            padding: 1.5px 6px;
+            border-radius: 4px;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+        .risk-high   { background: #ffebee; color: #c62828; }
+        .risk-med    { background: #fff8e1; color: #e65100; }
+        .risk-low    { background: #e8f5e9; color: #2e7d32; }
+
+        /* ── Timeline ── */
+        .timeline {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .tl-item {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            font-size: 8.5px;
+        }
+        .tl-dot {
+            width: 9px; height: 9px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+        .tl-done { background: #43a047; }
+        .tl-now  { background: #1565c0; border: 2px solid #90caf9; }
+        .tl-next { background: #bdbdbd; }
+        .tl-label { color: #37474f; }
+        .tl-date  { color: #90a4ae; font-size: 7.5px; margin-left: auto; }
+
+        /* ── Footer ── */
+        .footer {
+            border-top: 1px solid #e0e0e0;
+            padding-top: 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+        }
+        .footer p { font-size: 7.5px; color: #90a4ae; }
+        .footer .sig { font-size: 8px; color: #546e7a; font-weight: 600; }
+
+        @media print {
+            body { background: none; padding: 0; }
+            .page { box-shadow: none; }
+        }
+    </style>
+</head>
+<body>
+<div class="page">
+
+    <!-- HEADER -->
+    <div class="header">
+        <div class="header-left">
+            <h1>🏗️ Hardware B2B Platform — Progress Report</h1>
+            <p>Papua New Guinea · B2B Hardware Supply Chain Platform · React + Node.js + PostgreSQL</p>
+        </div>
+        <div class="header-right">
+            <span class="badge">SYSTEM IN PROGRESS</span>
+            <p>Report Date: April 1 2026</p>
+        </div>
+    </div>
+
+    <!-- KPIs -->
+    <div>
+        <div class="section-title">Project at a Glance</div>
+        <div class="kpi-row">
+            <div class="kpi-card">
+                <div class="num">16</div>
+                <div class="label">API Route Modules</div>
+            </div>
+            <div class="kpi-card">
+                <div class="num">3</div>
+                <div class="label">User Roles</div>
+            </div>
+            <div class="kpi-card">
+                <div class="num">85%</div>
+                <div class="label">Overall Completion</div>
+            </div>
+            <div class="kpi-card">
+                <div class="num">6</div>
+                <div class="label">Dev Phases</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PHASE TABLE + FEATURE LIST -->
+    <div class="two-col">
+        <div>
+            <div class="section-title">SDLC Phase Status</div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Phase</th>
+                        <th>Description</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>1. Planning</td><td>Scope, stakeholders, goals</td><td><span class="pill pill-done">Complete</span></td></tr>
+                    <tr><td>2. Requirements</td><td>Functional + non-functional</td><td><span class="pill pill-done">Complete</span></td></tr>
+                    <tr><td>3. System Design</td><td>Architecture, ERD, API, Security</td><td><span class="pill pill-done">Complete</span></td></tr>
+                    <tr><td>4. Implementation</td><td>Core → Analytics → Admin</td><td><span class="pill pill-prog">Phase 6 Pending</span></td></tr>
+                    <tr><td>5. Testing</td><td>Unit, API, Integration, UAT</td><td><span class="pill pill-prog">In Progress</span></td></tr>
+                    <tr><td>6. Deployment</td><td>AWS infrastructure + CI/CD</td><td><span class="pill pill-pend">Upcoming</span></td></tr>
+                    <tr><td>7. Maintenance</td><td>Monitoring, patches, enhancements</td><td><span class="pill pill-pend">Upcoming</span></td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div>
+            <div class="section-title">Module Completion</div>
+            <div class="bar-row">
+                <div class="bar-item">
+                    <div class="bar-label"><span>Authentication &amp; Users</span><span>100%</span></div>
+                    <div class="bar-track"><div class="bar-fill" style="width:100%"></div></div>
+                </div>
+                <div class="bar-item">
+                    <div class="bar-label"><span>Products &amp; Inventory</span><span>100%</span></div>
+                    <div class="bar-track"><div class="bar-fill" style="width:100%"></div></div>
+                </div>
+                <div class="bar-item">
+                    <div class="bar-label"><span>Orders &amp; Requests</span><span>100%</span></div>
+                    <div class="bar-track"><div class="bar-fill" style="width:100%"></div></div>
+                </div>
+                <div class="bar-item">
+                    <div class="bar-label"><span>Real-Time Chat</span><span>100%</span></div>
+                    <div class="bar-track"><div class="bar-fill" style="width:100%"></div></div>
+                </div>
+                <div class="bar-item">
+                    <div class="bar-label"><span>Admin Panel</span><span>100%</span></div>
+                    <div class="bar-track"><div class="bar-fill" style="width:100%"></div></div>
+                </div>
+                <div class="bar-item">
+                    <div class="bar-label"><span>Analytics &amp; Invoices</span><span>95%</span></div>
+                    <div class="bar-track"><div class="bar-fill" style="width:95%"></div></div>
+                </div>
+                <div class="bar-item">
+                    <div class="bar-label"><span>Payment (Stripe)</span><span>20%</span></div>
+                    <div class="bar-track"><div class="bar-fill" style="width:20%"></div></div>
+                </div>
+                <div class="bar-item">
+                    <div class="bar-label"><span>AWS Deployment</span><span>10%</span></div>
+                    <div class="bar-track"><div class="bar-fill" style="width:10%"></div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FEATURES + RISKS -->
+    <div class="two-col">
+        <div>
+            <div class="section-title">Implemented Features</div>
+            <div class="feature-grid">
+                <div class="feature-item"><div class="dot dot-done"></div>JWT + CSRF Auth</div>
+                <div class="feature-item"><div class="dot dot-done"></div>Role-Based Access Control</div>
+                <div class="feature-item"><div class="dot dot-done"></div>Product Listings &amp; Search</div>
+                <div class="feature-item"><div class="dot dot-done"></div>Bulk Pricing &amp; Templates</div>
+                <div class="feature-item"><div class="dot dot-done"></div>Multi-Step Request Flow</div>
+                <div class="feature-item"><div class="dot dot-done"></div>Shop Selection &amp; Validation</div>
+                <div class="feature-item"><div class="dot dot-done"></div>Real-Time Chat (WebSocket)</div>
+                <div class="feature-item"><div class="dot dot-done"></div>Chat File Attachments</div>
+                <div class="feature-item"><div class="dot dot-done"></div>PDF Invoice Generation</div>
+                <div class="feature-item"><div class="dot dot-done"></div>Favorites &amp; Address Book</div>
+                <div class="feature-item"><div class="dot dot-done"></div>Admin Dashboard</div>
+                <div class="feature-item"><div class="dot dot-done"></div>Dispute Management</div>
+                <div class="feature-item"><div class="dot dot-done"></div>Audit Logs</div>
+                <div class="feature-item"><div class="dot dot-done"></div>Offline PWA Queue</div>
+                <div class="feature-item"><div class="dot dot-prog"></div>Stripe Payment (Pending)</div>
+                <div class="feature-item"><div class="dot dot-pend"></div>AWS Deployment</div>
+            </div>
+        </div>
+
+        <div>
+            <div class="section-title">Risks &amp; Issues</div>
+            <div class="risk-item">
+                <span class="risk-badge risk-high">HIGH</span>
+                <span>Debug logging in production exposes sensitive request body data — must be gated behind NODE_ENV check.</span>
+            </div>
+            <div class="risk-item">
+                <span class="risk-badge risk-high">HIGH</span>
+                <span>Missing Helmet security headers — XSS and clickjacking protections not yet applied.</span>
+            </div>
+            <div class="risk-item">
+                <span class="risk-badge risk-med">MED</span>
+                <span>Stripe integration pending activation — no live payment processing available yet.</span>
+            </div>
+            <div class="risk-item">
+                <span class="risk-badge risk-med">MED</span>
+                <span>Database connection pool not configured — no timeout or retry logic under load.</span>
+            </div>
+            <div class="risk-item">
+                <span class="risk-badge risk-low">LOW</span>
+                <span>No API documentation (Swagger) — onboarding new developers requires manual review.</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- TIMELINE + NEXT STEPS -->
+    <div class="two-col">
+        <div>
+            <div class="section-title">Project Timeline</div>
+            <div class="timeline">
+                <div class="tl-item"><div class="tl-dot tl-done"></div><span class="tl-label">Planning &amp; Requirements</span><span class="tl-date">Jan 2025</span></div>
+                <div class="tl-item"><div class="tl-dot tl-done"></div><span class="tl-label">System Design &amp; ERD</span><span class="tl-date">Feb 2025</span></div>
+                <div class="tl-item"><div class="tl-dot tl-done"></div><span class="tl-label">Core Implementation (Auth, Products, Orders)</span><span class="tl-date">Mar 2025</span></div>
+                <div class="tl-item"><div class="tl-dot tl-done"></div><span class="tl-label">Chat, Analytics, Admin Panel</span><span class="tl-date">Apr 2025</span></div>
+                <div class="tl-item"><div class="tl-dot tl-now"></div><span class="tl-label" style="color:#1565c0;font-weight:600;">Testing &amp; Security Hardening ← NOW</span><span class="tl-date">May–Jun 2025</span></div>
+                <div class="tl-item"><div class="tl-dot tl-next"></div><span class="tl-label">Stripe Activation &amp; AWS Deployment</span><span class="tl-date">Jul 2025</span></div>
+                <div class="tl-item"><div class="tl-dot tl-next"></div><span class="tl-label">Production Launch</span><span class="tl-date">Aug 2025</span></div>
+            </div>
+        </div>
+
+        <div>
+            <div class="section-title">Next Steps (Priority Order)</div>
+            <table>
+                <thead>
+                    <tr><th>#</th><th>Task</th><th>Effort</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>1</td><td>Remove production debug logging</td><td>~5 min</td></tr>
+                    <tr><td>2</td><td>Add Helmet + compression middleware</td><td>~15 min</td></tr>
+                    <tr><td>3</td><td>Configure DB connection pool &amp; retry</td><td>~20 min</td></tr>
+                    <tr><td>4</td><td>Add input validation (email, password)</td><td>~1 hr</td></tr>
+                    <tr><td>5</td><td>Complete API testing (Postman)</td><td>~2 hrs</td></tr>
+                    <tr><td>6</td><td>Activate Stripe payment integration</td><td>~1 day</td></tr>
+                    <tr><td>7</td><td>Provision AWS (RDS + EC2 + Amplify)</td><td>~2 days</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+        <p>Hardware B2B Platform · Confidential · Papua New Guinea Market</p>
+        <p class="sig">Prepared by: Steven Angua · April 1 2026</p>
+        <p>Page 1 of 1</p>
+    </div>
+
+</div>
+</body>
+</html>

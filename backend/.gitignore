@@ -1,0 +1,8 @@
+node_modules
+.env
+uploads/products/*
+uploads/chat/*
+!uploads/products/.gitkeep
+!uploads/chat/.gitkeep
+temp_*.js
+package-lock.json
