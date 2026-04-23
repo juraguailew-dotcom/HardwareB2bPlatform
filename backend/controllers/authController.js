@@ -2,6 +2,7 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
+const validator = require('validator');
 const pool = require('../database/db');
 const User = require('../models/userModel');
 const { sendPasswordReset } = require('../utils/email');
@@ -10,6 +11,19 @@ const { sendPasswordReset } = require('../utils/email');
 const register = async (req, res) => {
     try {
         const { email, password, user_type, company_name, phone, address, tax_id } = req.body;
+        
+        // Input validation
+        if (!email || !validator.isEmail(email)) {
+            return res.status(400).json({ error: 'Valid email is required' });
+        }
+        
+        if (!password || password.length < 8) {
+            return res.status(400).json({ error: 'Password must be at least 8 characters' });
+        }
+        
+        if (!['shop', 'contractor'].includes(user_type)) {
+            return res.status(400).json({ error: 'Invalid user type' });
+        }
         
         // Check if user already exists
         const existingUser = await User.findByEmail(email);
@@ -36,7 +50,7 @@ const register = async (req, res) => {
         const token = jwt.sign(
             { id: newUser.id, email: newUser.email, user_type: newUser.user_type },
             process.env.JWT_SECRET,
-            { expiresIn: '24h' }
+            { expiresIn: '4h' }
         );
         
         res.status(201).json({
@@ -46,7 +60,10 @@ const register = async (req, res) => {
                 id: newUser.id,
                 email: newUser.email,
                 user_type: newUser.user_type,
-                company_name: newUser.company_name
+                company_name: newUser.company_name,
+                phone: newUser.phone,
+                address: newUser.address,
+                verified: newUser.verified
             }
         });
     } catch (error) {
@@ -76,7 +93,7 @@ const login = async (req, res) => {
         const token = jwt.sign(
             { id: user.id, email: user.email, user_type: user.user_type },
             process.env.JWT_SECRET,
-            { expiresIn: '24h' }
+            { expiresIn: '4h' }
         );
         
         res.json({
@@ -86,7 +103,10 @@ const login = async (req, res) => {
                 id: user.id,
                 email: user.email,
                 user_type: user.user_type,
-                company_name: user.company_name
+                company_name: user.company_name,
+                phone: user.phone,
+                address: user.address,
+                verified: user.verified
             }
         });
     } catch (error) {

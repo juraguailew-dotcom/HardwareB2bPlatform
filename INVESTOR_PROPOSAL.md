@@ -7,7 +7,7 @@
 **Document Classification:** Confidential — For Investor Review Only
 **Prepared By:** HardwareB2B Platform Team
 **Date:** 2025
-**Version:** 1.0
+**Version:** 1.1
 
 ---
 
@@ -38,11 +38,11 @@ HardwareB2B is a purpose-built, full-stack digital commerce platform designed ex
 
 PNG's construction sector is growing rapidly, driven by government infrastructure spending, LNG-related development, and urban expansion across Port Moresby, Lae, and regional centres. Yet the supply chain that feeds this growth — hardware procurement — remains fragmented, opaque, and slow. HardwareB2B solves this directly.
 
-The platform is **already built**. A production-ready MVP exists with a React frontend, Node.js/Express backend, PostgreSQL database, real-time WebSocket messaging, role-based access control, PDF invoicing, sales analytics, inventory management, and a dispute resolution system. Stripe payment integration is architected and ready for activation.
+The platform is **already built as a working web application MVP**. A substantial implementation exists with a React frontend, Node.js/Express backend, PostgreSQL database, JWT authentication, CSRF protection, real-time Socket.IO messaging, role-based access control, PDF invoice generation, analytics, inventory management, templates, favourites, chat, notifications, reviews, and admin tooling. Payment processing and cloud deployment are **not yet implemented in the current codebase** and remain part of launch preparation rather than completed functionality.
 
-We are seeking **K [Amount] in seed funding** to complete final testing, activate payments, deploy to AWS cloud infrastructure, and execute our go-to-market strategy across PNG's major commercial centres.
+We are seeking **K [Amount] in seed funding** to complete production hardening, formal testing, deployment, commercial onboarding, and launch execution across PNG's major commercial centres.
 
-**This is not a concept. This is a working product looking for the capital to launch.**
+**This is not a concept. This is a working product that now needs launch capital and commercial execution.**
 
 ---
 
@@ -55,26 +55,26 @@ Papua New Guinea's construction and hardware industry operates largely the same 
 - **Phone calls and in-person visits** to multiple shops to compare prices
 - **Handwritten or verbal purchase orders** with no digital trail
 - **Manual stock checks** that result in delayed projects when items are out of stock
-- **No formal invoicing system** for smaller transactions
-- **Zero visibility** into order history, spending patterns, or supplier reliability
+- **Inconsistent invoicing and documentation** for smaller transactions
+- **Limited visibility** into request history, spending patterns, or supplier reliability
 
 This creates compounding problems for both sides of the market:
 
 **For Contractors:**
 - Wasted hours sourcing and comparing prices across multiple suppliers
-- No consolidated order history or spending analytics
-- Inability to place bulk orders efficiently or use repeat-order templates
-- No formal dispute resolution when orders go wrong
-- Cash flow uncertainty due to lack of digital invoicing
+- No consolidated digital history of requests and spending
+- Inability to place bulk requests efficiently or use repeat-request templates
+- Limited formal workflows when fulfilment issues arise
+- Poor documentation for accounting and project tracking
 
 **For Hardware Shops:**
 - No digital storefront to reach contractors beyond their immediate geography
 - Manual inventory tracking leading to overselling or stockouts
-- No data on sales trends, top products, or seasonal demand
+- Limited data on sales trends, top products, or seasonal demand
 - Inability to compete with larger suppliers who have informal digital tools
-- No structured way to manage and fulfil incoming orders
+- No structured way to manage and fulfil incoming requests
 
-**The cost of this inefficiency is real.** Project delays caused by procurement failures cost PNG contractors an estimated significant percentage of project value in time overruns. For a sector that contributes substantially to PNG's GDP, this is a structural problem with a clear, technology-driven solution.
+**The cost of this inefficiency is real.** Project delays caused by procurement failures cost PNG contractors meaningful time and money. For a sector that contributes substantially to PNG's GDP, this is a structural problem with a clear, technology-driven solution.
 
 ---
 
@@ -85,28 +85,29 @@ This creates compounding problems for both sides of the market:
 HardwareB2B is a two-sided marketplace and procurement management platform that connects hardware shops and contractors on a single, secure, mobile-responsive web application.
 
 **For Contractors, the platform provides:**
-- A searchable, filterable catalogue of products from verified hardware shops
-- One-click bulk order creation with saved order templates for repeat purchases
-- Real-time order tracking from placement through to delivery
-- Direct messaging with shops — including file and image attachments
-- Favourites lists for frequently purchased products
-- PDF invoices for every order
-- Full order history and spending analytics
+- A searchable, filterable catalogue of products from hardware suppliers
+- Request creation workflows with saved templates for repeat purchases
+- Request history and detail views
+- Direct messaging with shops
+- Favourites lists for frequently viewed or purchased products
+- Spending analytics
+- Access to invoices and supporting records
 
 **For Hardware Shops, the platform provides:**
 - A digital storefront with product listings, images, pricing, and stock levels
-- Flexible pricing — unit pricing and bulk/wholesale pricing tiers
-- Inventory management with low-stock alerts
-- Order fulfilment dashboard to manage incoming contractor orders
-- Sales analytics — revenue trends, top products, order volumes
+- Inventory management workflows
+- Pricing tools and request fulfilment workflows
+- Sales analytics and dashboard reporting
 - Direct communication with contractors via the built-in messenger
-- PDF invoice generation per order
+- Invoice generation and order/request administration
 
 **For Platform Administrators:**
-- User verification and onboarding approval
-- Dispute resolution management
-- Platform-wide settings and configuration
-- User management and role control
+- User management
+- Dispute management views
+- Platform settings
+- Analytics and audit-log style administration pages
+
+The current product language increasingly uses **requests** rather than **orders**, with backward-compatible routing maintained in parts of the backend and frontend.
 
 ---
 
@@ -131,13 +132,13 @@ PNG is one of the Pacific's largest economies and is experiencing sustained cons
 | Hardware & materials as % of project cost | ~40–60% |
 | Estimated annual hardware procurement value | USD 400M–600M |
 
-Even capturing **1–2% of procurement transactions** as platform fees represents a multi-million Kina annual revenue opportunity.
+Even capturing a small percentage of procurement coordination and supplier software spend represents a meaningful annual revenue opportunity.
 
 **Why Now:**
 - Smartphone and mobile internet penetration in PNG is growing rapidly
 - The PNG government is actively promoting digital business transformation
-- No direct competitor currently occupies this specific niche in the PNG market
-- Post-COVID supply chain disruptions have made digital procurement tools a priority for businesses
+- The market remains operationally underserved by vertical B2B procurement software
+- Supply chain disruption has increased the value of better visibility and coordination tools
 
 ---
 
@@ -148,140 +149,151 @@ Even capturing **1–2% of procurement transactions** as platform fees represent
 HardwareB2B has been designed with PNG's specific business environment in mind:
 
 **PNG Kina (PGK) Native Currency**
-All pricing, invoicing, and transactions are denominated in Papua New Guinea Kina. The platform is not a generic global tool retrofitted for PNG — it was built for PNG from the ground up.
-
-**Admin-Verified User Onboarding**
-Every shop and contractor must be verified by a platform administrator before gaining full access. This ensures platform integrity, prevents fraud, and builds trust between parties — critical in a market where business relationships are built on reputation.
+The backend logs explicitly reference PNG Kina and the platform positioning is clearly local-market specific.
 
 **Role-Based Access Control**
-Three distinct user roles — Shop, Contractor, and Admin — each with tailored dashboards, permissions, and workflows. Users only see and access what is relevant to their role.
+Three distinct user roles — Shop, Contractor, and Admin — each with tailored dashboards, permissions, and workflows.
 
 **Real-Time Communication**
-Built-in WebSocket-powered messenger allows contractors and shops to communicate directly, share product images, send documents (quotes, specs, delivery notes), and resolve queries without leaving the platform.
+Built-in Socket.IO-powered messaging supports direct communication between users, with supporting upload/static file paths configured on the backend.
 
-**Bulk Order Templates**
-Contractors can save frequently used order configurations as templates and reorder with a single click — a feature specifically designed for the repeat-procurement patterns common in construction projects.
+**Templates and Repeat Procurement**
+Contractors can save or use request templates for recurring procurement needs.
 
-**PDF Invoice Generation**
-Every completed order generates a professional PDF invoice, providing contractors and shops with the documentation they need for accounting, tax, and project records.
+**Invoice Workflows**
+The backend includes invoice routing and PDF generation libraries, supporting business documentation and record-keeping.
 
-**Dispute Resolution System**
-A structured, admin-mediated dispute resolution workflow gives both parties confidence that issues will be handled fairly and transparently.
+**Admin Oversight**
+Dedicated admin routes and frontend admin pages support platform operations including user administration, disputes, settings, analytics, and audit visibility.
 
 ---
 
 ## 6. TECHNOLOGY & ARCHITECTURE
 
-### Enterprise-Grade Stack, Built to Scale
+### Current Implementation Snapshot
 
-HardwareB2B is built on a modern, proven, cloud-ready technology stack:
+HardwareB2B is built on a modern JavaScript web stack and is already structured as separate frontend and backend applications.
 
 **Frontend**
-- React.js with Material UI — responsive, accessible, mobile-first interface
-- Context API for state management (Auth, Currency, Theme)
-- Lazy-loaded components for performance
-- Real-time updates via Socket.IO client
+- Create React App application
+- React **19.2.4**
+- React Router DOM **7.13.1**
+- Material UI **7**
+- Emotion styling
+- Axios for API communication
+- Framer Motion, Recharts, Leaflet, and Socket.IO client
+- Context-based state patterns for authentication, currency, and theme settings
+- Current route set includes public, protected, shop-only, contractor-only, and admin-only pages
 
 **Backend**
-- Node.js with Express.js — 16 REST API route modules
-- Socket.IO WebSocket server for real-time messaging
-- JWT authentication with CSRF protection
+- Node.js with Express **5.2.1**
+- PostgreSQL via `pg`
+- JWT authentication via `jsonwebtoken`
 - bcrypt password hashing
-- Rate limiting on all API endpoints
-- Multer + Cloudinary for image and file management
+- CSRF support via `csrf-csrf`
+- cookie-parser and CORS middleware
+- Socket.IO **4.8.3**
+- Multer uploads and Cloudinary integration libraries
+- PDFKit, Nodemailer, and Twilio installed for supporting business workflows
+- Automated database migrations executed on server startup
 
-**Database**
-- PostgreSQL — relational, ACID-compliant, production-grade
-- Automated migration system (runs on server start)
-- Optimised indexes for conversation queries, product search, and order lookups
-- Soft-delete support for user data integrity
+**Registered API Route Prefixes**
+- `/api/auth`
+- `/api/products`
+- `/api/requests`
+- `/api/v2/requests`
+- `/api/orders`
+- `/api/v1/orders`
+- `/api/inventory`
+- `/api/analytics`
+- `/api/favorites`
+- `/api/templates`
+- `/api/invoices`
+- `/api/users`
+- `/api/notifications`
+- `/api/locations`
+- `/api/pricing`
+- `/api/chat`
+- `/api/reviews`
+- `/api/admin`
+
+Additional endpoints currently include `/api/csrf-token`, `/api/test`, `/health`, and static `/uploads`.
 
 **Security**
-- JWT token authentication on all protected routes
-- CSRF double-submit cookie protection
-- Role-based middleware (isShop, isContractor, isAdmin)
-- Input validation and parameterised queries (SQL injection prevention)
-- Rate limiting to prevent brute-force attacks
+- JWT-based protected access
+- CSRF token endpoint and double-submit protection wiring
+- Rate limiting for auth routes and broader API usage
+- Cookie parsing, CORS, and role-aware route protection patterns
 
-**Deployment Target (AWS)**
-- Frontend: AWS Amplify / S3 + CloudFront (global CDN)
-- Backend: AWS Elastic Beanstalk / App Runner
-- Database: AWS RDS PostgreSQL (managed, automated backups)
-- File Storage: Cloudinary (images) + local/S3 (chat attachments)
+**Deployment Status**
+- The application is cloud-deployable in principle, but the current repository does **not** evidence completed AWS deployment, CI/CD setup, or live infrastructure provisioning.
+- Any AWS, App Runner, Amplify, or RDS plans should be treated as **deployment targets**, not completed implementation.
 
-**Payments (Ready for Activation)**
-- Stripe integration is fully architected in the codebase
-- Payment routes, checkout UI, and order payment status tracking are built
-- Pending activation upon regulatory and banking confirmation
+**Payments Status**
+- The current code references pricing and invoice capabilities, but there is **no Stripe dependency or verified Stripe integration present** in the inspected package manifests and entry points.
+- Payment processing should therefore be described as **future scope / commercial roadmap**, not launch-ready functionality.
 
 **Platform Modules:**
 
 | Module | Status |
 |---|---|
-| Authentication & Registration | ✅ Complete |
-| Product Catalogue & Search | ✅ Complete |
-| Order Management | ✅ Complete |
-| Inventory Management | ✅ Complete |
-| Real-Time Messenger + File Attachments | ✅ Complete |
-| Bulk Order Templates | ✅ Complete |
-| Favourites | ✅ Complete |
-| Sales Analytics | ✅ Complete |
-| Order Fulfilment Dashboard | ✅ Complete |
-| PDF Invoice Generation | ✅ Complete |
-| Admin Dashboard & User Verification | ✅ Complete |
-| Dispute Resolution | ✅ Complete |
-| Platform Settings | ✅ Complete |
-| Stripe Payment Integration | ⏳ Pending Activation |
-| Mobile App | 🗓 Roadmap |
-| Email Notifications | 🗓 Roadmap |
-| Multi-Currency Support | 🗓 Roadmap |
+| Authentication & Registration | ✅ Implemented |
+| Product Catalogue & Search | ✅ Implemented |
+| Request / Order Routing Layer | ✅ Implemented |
+| Inventory Management | ✅ Implemented |
+| Real-Time Messaging | ✅ Implemented |
+| Templates | ✅ Implemented |
+| Favourites | ✅ Implemented |
+| Analytics | ✅ Implemented |
+| Request Fulfilment | ✅ Implemented |
+| Invoice Module | ✅ Implemented |
+| Notifications | ✅ Implemented |
+| Reviews | ✅ Implemented |
+| Admin Dashboard Area | ✅ Implemented |
+| Dispute Management UI | ✅ Implemented |
+| Audit Log UI | ✅ Implemented |
+| Payment Processing | ⏳ Future Work |
+| Native Mobile App | 🗓 Roadmap |
 
 ---
 
 ## 7. BUSINESS MODEL & REVENUE STREAMS
 
-HardwareB2B operates a multi-layered revenue model designed to generate income from day one while scaling with platform growth.
+HardwareB2B operates a multi-layered revenue model designed to generate income as adoption grows.
 
-### Revenue Stream 1 — Transaction Commission (Primary)
-A percentage fee applied to each order processed through the platform.
-
-- **Model:** 1.5% – 3% commission on gross merchandise value (GMV)
-- **Trigger:** Activated upon Stripe payment integration go-live
-- **Rationale:** Standard for B2B marketplace platforms globally; low enough to be accepted, high enough to be meaningful at scale
-
-### Revenue Stream 2 — Shop Subscription Tiers
+### Revenue Stream 1 — Shop Subscription Tiers
 Monthly or annual subscription plans for hardware shops.
 
 | Tier | Features | Price (PGK/month) |
 |---|---|---|
-| Basic | Up to 50 products, standard listing | K 150 |
-| Professional | Unlimited products, analytics, priority listing | K 400 |
-| Enterprise | Custom integrations, dedicated support | K 900+ |
+| Basic | Core listing and account access | K 150 |
+| Professional | Expanded catalogue and analytics | K 400 |
+| Enterprise | Priority support and custom arrangements | K 900+ |
 
-### Revenue Stream 3 — Featured Listings & Promotions
-Shops pay to have their products or store featured prominently in search results and the homepage — a proven model from platforms like Alibaba and Amazon.
+### Revenue Stream 2 — Featured Listings & Promotions
+Shops can pay to have their products or store featured more prominently in discovery surfaces.
 
-### Revenue Stream 4 — Premium Contractor Plans
-Contractors pay for advanced features such as:
-- Unlimited order templates
-- Advanced spending analytics and reporting
-- Priority dispute resolution
-- Early access to new features
+### Revenue Stream 3 — Premium Contractor Plans
+Potential value-added features for larger contractors could include:
+- More advanced reporting
+- Additional templates
+- Priority support
+- Early feature access
 
-### Revenue Stream 5 — Platform Services (Future)
-- Logistics and delivery coordination fees
-- Trade credit facilitation (buy-now-pay-later for verified contractors)
-- Data and market insights reports for industry stakeholders
+### Revenue Stream 4 — Platform Services (Future)
+- Logistics coordination
+- Trade credit facilitation
+- Market insights and reporting services
 
 ### Revenue Projection Summary
 
-| Year | Shops | Contractors | Est. GMV (PGK) | Est. Revenue (PGK) |
-|---|---|---|---|---|
-| Year 1 | 50 | 200 | K 5M | K 250,000 |
-| Year 2 | 150 | 600 | K 20M | K 900,000 |
-| Year 3 | 350 | 1,500 | K 60M | K 2.5M+ |
+| Year | Shops | Contractors | Est. Platform Revenue (PGK) |
+|---|---|---|---|
+| Year 1 | 50 | 200 | K 250,000 |
+| Year 2 | 150 | 600 | K 900,000 |
+| Year 3 | 350 | 1,500 | K 2.5M+ |
 
-*Projections based on conservative market penetration assumptions. GMV = total order value processed through the platform.*
+*Illustrative projections only. Commercial assumptions should be validated during go-to-market execution.*
 
 ---
 
@@ -289,26 +301,23 @@ Contractors pay for advanced features such as:
 
 ### Why HardwareB2B Wins in This Market
 
-**1. First-Mover Advantage in an Uncontested Market**
-There is no direct digital B2B hardware procurement platform operating in PNG today. The first platform to establish network effects — shops listing products, contractors placing orders — creates a defensible moat that is extremely difficult for later entrants to overcome.
+**1. Built for a Specific Vertical and Geography**
+This is not a generic storefront. It is shaped around hardware procurement workflows and PNG market realities.
 
-**2. Built Specifically for PNG**
-Generic e-commerce platforms (Shopify, WooCommerce) are not designed for B2B procurement workflows, bulk ordering, contractor-specific features, or PNG Kina. HardwareB2B is not adapted — it is purpose-built.
+**2. Working Product — Not a Slide Deck**
+There is already a functioning frontend, backend, route structure, role model, and business workflow footprint in code. This materially reduces product-development uncertainty.
 
-**3. Working Product — Not a Concept**
-The platform is fully developed and functional. Investors are not funding an idea or a prototype. They are funding the launch and scaling of a production-ready system. This dramatically reduces technology risk.
+**3. Operational Feature Depth**
+The platform is not limited to catalogue browsing. It already includes messaging, templates, analytics, invoices, administration, and request-management features.
 
-**4. Network Effects**
-Every new shop that lists products makes the platform more valuable to contractors. Every new contractor that joins makes the platform more valuable to shops. This self-reinforcing dynamic accelerates growth and raises the cost of switching to a competitor.
+**4. Role-Based Marketplace Design**
+The product is intentionally structured for the needs of shops, contractors, and administrators, improving usability and trust.
 
-**5. Trust Infrastructure**
-The admin verification system, dispute resolution module, and review system create a trusted marketplace environment. In PNG's business culture, where relationships and reputation are paramount, this trust layer is a significant competitive differentiator.
+**5. Trust and Oversight Potential**
+Admin tooling, reviews, and dispute-related workflows support the creation of a more accountable marketplace environment.
 
-**6. Data Moat**
-As transactions flow through the platform, HardwareB2B accumulates proprietary data on pricing, demand patterns, supplier reliability, and market trends. This data becomes increasingly valuable — to the platform itself, to shops optimising their inventory, and potentially to industry bodies and government.
-
-**7. Switching Costs**
-Once a contractor has their order templates, supplier relationships, order history, and invoices on the platform, the cost of switching to an alternative is high. This creates strong retention.
+**6. Expansion Optionality**
+Once the core web product is commercialised, the platform has room to grow into payments, logistics, mobile apps, and deeper reporting layers.
 
 ---
 
@@ -316,71 +325,68 @@ Once a contractor has their order templates, supplier relationships, order histo
 
 ### Where We Are Today
 
-The HardwareB2B platform has completed **5 of 6 development phases**:
+The current repository indicates a **substantially implemented MVP**, with the core multi-role web platform in place and launch preparation work still remaining.
 
-| Phase | Description | Status |
-|---|---|---|
-| Phase 1 | Core — Auth, Registration, Product Listing | ✅ Complete |
-| Phase 2 | Transactions — Orders, Order Items, Inventory | ✅ Complete |
-| Phase 3 | Engagement — Favourites, Templates, Real-Time Chat | ✅ Complete |
-| Phase 4 | Analytics — Sales Analytics, Fulfilment, PDF Invoices | ✅ Complete |
-| Phase 5 | Admin — User Verification, Disputes, Platform Settings | ✅ Complete |
-| Phase 6 | Payments — Stripe Integration | ⏳ Pending Activation |
+| Area | Status |
+|---|---|
+| Core authentication and registration | ✅ Implemented |
+| Product catalogue and supplier workflows | ✅ Implemented |
+| Request/history/detail flows | ✅ Implemented |
+| Messaging and chat routes | ✅ Implemented |
+| Inventory, analytics, templates, favourites | ✅ Implemented |
+| Invoices, notifications, reviews | ✅ Implemented |
+| Admin area with nested routes | ✅ Implemented |
+| Payment processing | ⏳ Not yet implemented in current stack |
+| Production deployment | ⏳ Not yet evidenced as completed |
+| Formal launch/UAT hardening | ⏳ In progress / pre-launch |
 
 **What this means for investors:**
-- Technology risk is substantially de-risked — the core product works
-- Time-to-market is measured in weeks, not months or years
-- Investment goes directly into launch, growth, and market capture — not into building something that may or may not work
+- Technology execution risk is materially reduced versus an idea-stage company
+- The immediate need is launch readiness, testing, deployment, onboarding, and customer acquisition
+- Capital can be directed toward commercial rollout and finishing steps rather than building from zero
 
-**Development Metrics:**
-- 16 REST API route modules
-- 30+ frontend component modules across 9 directories
-- Full WebSocket real-time infrastructure
-- Automated database migration system
-- Role-based access control across 3 user types
-- File attachment support in messenger (images, PDFs, documents)
-- AWS deployment architecture fully planned and documented
+**Observed implementation metrics:**
+- 14 backend route files mounted under 18 API prefixes including compatibility aliases
+- Role-based frontend route architecture across shop, contractor, admin, and shared authenticated pages
+- Real-time Socket.IO infrastructure
+- Automated migration execution on backend startup
+- Separate backend and frontend applications with modern dependency stacks
 
 ---
 
 ## 10. GO-TO-MARKET STRATEGY
 
-### Phase 1 — Controlled Launch (Months 1–3)
-**Target:** Port Moresby hardware corridor (Gordons, Waigani, Boroko)
+### Phase 1 — Controlled Launch
+**Target:** Port Moresby hardware corridor
 
-- Onboard 20–30 anchor hardware shops through direct sales outreach
-- Recruit 50–100 contractors through construction industry associations and word of mouth
-- Offer free platform access for the first 6 months to drive adoption
-- Assign a dedicated onboarding team to assist shops with product listing setup
-- Collect feedback aggressively and iterate
+- Onboard anchor hardware shops through direct outreach
+- Recruit an initial contractor cohort through industry relationships
+- Offer assisted onboarding for supplier catalogue setup
+- Use real customer feedback to refine operational workflows before wider rollout
 
-### Phase 2 — Market Expansion (Months 4–9)
-**Target:** Lae, Kokopo, Mt Hagen
+### Phase 2 — Market Expansion
+**Target:** Lae and other major commercial centres
 
-- Expand to PNG's second and third largest commercial centres
-- Activate subscription billing for shops
-- Launch transaction commission model alongside Stripe payment activation
-- Begin digital marketing — Facebook (dominant in PNG), Google, industry publications
-- Partner with PNG hardware industry associations for credibility and reach
+- Expand supplier and contractor density
+- Introduce paid supplier plans once marketplace utility is proven
+- Formalise reporting and customer success processes
+- Increase digital and relationship-driven marketing
 
-### Phase 3 — Scale & Diversify (Months 10–18)
-**Target:** National coverage + new verticals
+### Phase 3 — Scale & Diversify
+**Target:** National footprint and adjacent service layers
 
-- Full national rollout across all major PNG centres
-- Launch mobile app (iOS + Android) for on-site contractor access
-- Introduce email notification system for order updates
-- Explore expansion into adjacent Pacific Island markets (Solomon Islands, Vanuatu, Fiji)
-- Introduce trade credit and logistics coordination services
+- Expand geographic coverage
+- Evaluate roadmap additions such as payments, mobile delivery, and expanded notification tooling
+- Explore adjacent operational services where unit economics support them
 
 ### Customer Acquisition Strategy
 
 | Channel | Rationale |
 |---|---|
-| Direct sales (field team) | PNG business culture is relationship-driven; in-person is essential |
-| Facebook advertising | Highest social media penetration in PNG |
-| Industry associations | CIMC, PNG Contractors Association — credibility and bulk reach |
-| Referral programme | Incentivise contractors to refer other contractors |
-| Free onboarding period | Remove friction for early adopters |
+| Direct sales and founder-led outreach | Relationship-driven PNG commercial environment |
+| Industry referrals | Faster trust-building with suppliers and contractors |
+| Facebook and digital marketing | Practical reach in the local market |
+| Free or assisted onboarding | Reduces early adoption friction |
 
 ---
 
@@ -389,31 +395,21 @@ The HardwareB2B platform has completed **5 of 6 development phases**:
 ### 3-Year Financial Summary
 
 **Key Assumptions:**
-- Shop subscription revenue begins Month 4
-- Transaction commission begins Month 7 (post-Stripe activation)
-- Conservative 15–20% month-on-month user growth in Year 1
-- Average order value: K 2,500
-- Average orders per contractor per month: 4
+- Supplier subscriptions begin after controlled launch
+- Additional monetisation layers are phased in gradually
+- User growth remains conservative in Year 1
+- Average contractor usage grows as supplier density improves
 
 | Metric | Year 1 | Year 2 | Year 3 |
 |---|---|---|---|
 | Active Shops | 50 | 150 | 350 |
 | Active Contractors | 200 | 600 | 1,500 |
-| Monthly Orders (end of year) | 800 | 2,400 | 6,000 |
-| Annual GMV | K 5M | K 20M | K 60M |
 | Subscription Revenue | K 80,000 | K 360,000 | K 900,000 |
-| Transaction Commission Revenue | K 75,000 | K 400,000 | K 1,200,000 |
-| Featured Listings & Other | K 20,000 | K 80,000 | K 200,000 |
+| Promotions & Other Revenue | K 20,000 | K 80,000 | K 200,000 |
+| Service / Transaction Revenue | K 75,000 | K 400,000 | K 1,200,000 |
 | **Total Revenue** | **K 175,000** | **K 840,000** | **K 2,300,000** |
-| Operating Costs | K 320,000 | K 580,000 | K 950,000 |
-| **Net Position** | **(K 145,000)** | **K 260,000** | **K 1,350,000** |
 
-*Year 1 net loss reflects investment in team, marketing, and infrastructure. Platform reaches profitability in Year 2.*
-
-### Path to Profitability
-- Break-even projected at **Month 18–20**
-- Positive cash flow from **Year 2 onwards**
-- Strong margin expansion in Year 3 as fixed costs are absorbed by growing revenue
+*These are planning projections, not audited forecasts. Timing of transaction-based revenue depends on final commercial model and payment implementation decisions.*
 
 ---
 
@@ -423,19 +419,18 @@ The HardwareB2B platform has completed **5 of 6 development phases**:
 
 | Category | Allocation | % |
 |---|---|---|
-| AWS Cloud Infrastructure & Deployment | K [X] | 15% |
-| Stripe Payment Integration & Activation | K [X] | 8% |
-| Sales & Onboarding Team (6 months) | K [X] | 25% |
-| Marketing & Customer Acquisition | K [X] | 20% |
-| Product Development (Mobile App, Email Notifications) | K [X] | 18% |
-| Legal, Compliance & Business Registration | K [X] | 7% |
-| Working Capital & Contingency | K [X] | 7% |
+| Infrastructure, hosting, and deployment | K [X] | 18% |
+| Testing, security hardening, and launch readiness | K [X] | 12% |
+| Sales & onboarding team (6 months) | K [X] | 25% |
+| Marketing & customer acquisition | K [X] | 20% |
+| Product development roadmap items | K [X] | 18% |
+| Legal, compliance & business registration | K [X] | 7% |
 | **Total** | **K [Amount]** | **100%** |
 
 ### Why This Allocation Works
-- The largest allocation goes to **people and market acquisition** — because the technology is built. The constraint is not engineering; it is sales and adoption.
-- AWS infrastructure costs are well-understood and predictable — the architecture is fully planned.
-- The mobile app allocation accelerates the platform's accessibility for on-site contractors who primarily use smartphones.
+- The largest allocation goes to **go-to-market execution** because a working software base already exists.
+- A meaningful portion is reserved for **production hardening and deployment**, which is a realistic near-term need based on the current implementation state.
+- Product roadmap funding preserves flexibility for payments, mobile expansion, and other commercial priorities.
 
 ---
 
@@ -447,10 +442,10 @@ The HardwareB2B platform has completed **5 of 6 development phases**:
 Background in [construction / technology / business]. Deep understanding of PNG's hardware and construction market. Responsible for strategy, partnerships, and investor relations.
 
 **[CTO / Lead Developer]**
-Full-stack engineer with expertise in React, Node.js, PostgreSQL, and AWS. Architect and primary developer of the HardwareB2B platform. Responsible for technology, infrastructure, and product development.
+Full-stack engineer with expertise in React, Node.js, PostgreSQL, and modern web architecture. Responsible for application delivery, infrastructure planning, and roadmap execution.
 
 **[Head of Sales / Operations]**
-[Background]. Responsible for shop and contractor onboarding, field sales, and customer success across PNG's major centres.
+Responsible for supplier onboarding, contractor acquisition, and customer success across PNG's major centres.
 
 **Advisors**
 - [Industry advisor — construction/hardware sector]
@@ -463,13 +458,12 @@ Full-stack engineer with expertise in React, Node.js, PostgreSQL, and AWS. Archi
 
 | Risk | Likelihood | Impact | Mitigation |
 |---|---|---|---|
-| Low initial platform adoption | Medium | High | Free onboarding period; direct sales team; anchor shop strategy |
-| Internet connectivity limitations in regional PNG | Medium | Medium | Mobile-optimised PWA; offline-capable features on roadmap |
-| Competitor entry | Low (Year 1–2) | High | First-mover advantage; network effects; rapid feature development |
-| Payment processing delays (Stripe/banking) | Medium | Medium | Revenue model does not depend solely on payments; subscriptions provide early revenue |
-| Regulatory changes | Low | Medium | Legal advisor engaged; platform designed for compliance |
-| Key person dependency | Medium | High | Documentation, code repository, and knowledge transfer protocols in place |
-| Currency/economic instability in PNG | Low | Medium | PGK-native platform; pricing flexibility built in |
+| Low initial platform adoption | Medium | High | Free onboarding period; direct sales; anchor supplier strategy |
+| Internet connectivity limitations in regional PNG | Medium | Medium | Mobile-responsive web product; optimise for practical field use |
+| Payments rollout complexity | Medium | Medium | Keep monetisation flexible; do not depend solely on integrated payments at launch |
+| Competitor entry | Low to Medium | High | First-mover execution; supplier density; relationship-led growth |
+| Production hardening gaps before launch | Medium | Medium | Focus funding on testing, deployment, and operational readiness |
+| Key person dependency | Medium | High | Documentation, repository hygiene, and staged team expansion |
 
 ---
 
@@ -477,45 +471,41 @@ Full-stack engineer with expertise in React, Node.js, PostgreSQL, and AWS. Archi
 
 ### Seed Round
 
-**Amount Sought:** K [Amount]
-**Instrument:** [Equity / Convertible Note / SAFE — to be confirmed]
-**Equity Offered:** [X]%
-**Pre-Money Valuation:** K [Amount]
-**Minimum Investment:** K [Amount]
+**Amount Sought:** K [Amount]  
+**Instrument:** [Equity / Convertible Note / SAFE — to be confirmed]  
+**Equity Offered:** [X]%  
+**Pre-Money Valuation:** K [Amount]  
+**Minimum Investment:** K [Amount]  
 **Use of Proceeds:** As detailed in Section 12
 
 ### What Investors Receive
-- Equity stake in a first-mover B2B platform in a high-growth, underserved market
+- Exposure to a first-mover vertical software opportunity in PNG
 - Quarterly financial and operational reporting
-- Board or advisory seat (for lead investors)
-- Pro-rata rights in future funding rounds
-- Access to platform data and market insights
+- Potential board or advisory involvement for lead investors
+- Participation in future growth rounds
 
 ### Why Invest Now
-- The product is built — capital goes to growth, not development risk
-- PNG's construction market is growing and digitisation is accelerating
-- No direct competitor currently exists in this space
-- The founding team has domain expertise and a working product
-- Early investors capture the highest equity value before market traction drives valuation up
+- The product foundation already exists
+- Capital now accelerates launch and market entry rather than greenfield software development
+- PNG remains underserved by purpose-built B2B procurement software
+- Early execution can establish supplier and contractor network effects
 
 ---
 
 ## 16. CONCLUSION
 
-HardwareB2B represents a rare investment opportunity: a **working, production-ready platform** targeting a **large, underserved market** with **no direct competition**, built by a team with **deep domain knowledge** of the Papua New Guinea construction and hardware industry.
+HardwareB2B represents a strong early-stage opportunity: a **working multi-role B2B procurement platform** targeting a **large, underserved market** with a clear operational pain point.
 
-The problem is real. The solution is built. The market is ready.
+The problem is real. The product foundation is built. The next step is disciplined launch execution.
 
-We are not asking investors to fund a vision. We are asking them to fund the launch of a platform that is already capable of transforming how PNG's hardware industry operates — and to share in the significant financial returns that will follow.
-
-We invite you to join us in building PNG's first dedicated hardware B2B marketplace.
+We invite investors to help fund the transition from implemented MVP to commercially launched platform serving PNG's hardware and construction ecosystem.
 
 ---
 
-**Contact:**
-[Name]
-[Email]
-[Phone]
+**Contact:**  
+[Name]  
+[Email]  
+[Phone]  
 [Website / Platform URL]
 
 ---

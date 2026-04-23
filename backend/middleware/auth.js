@@ -2,7 +2,13 @@
 const { doubleCsrf } = require('csrf-csrf');
 
 const { generateCsrfToken: generateToken, doubleCsrfProtection } = doubleCsrf({
-    getSecret: () => process.env.CSRF_SECRET || process.env.JWT_SECRET || 'fallback-csrf-secret-change-in-production',
+    getSecret: () => {
+        const secret = process.env.CSRF_SECRET;
+        if (!secret) {
+            throw new Error('CSRF_SECRET environment variable is required');
+        }
+        return secret;
+    },
     getSessionIdentifier: (req) => req.ip || '',
     cookieName: 'x-csrf-token',
     cookieOptions: {

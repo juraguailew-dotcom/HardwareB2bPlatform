@@ -1,8 +1,10 @@
 // backend/routes/users.js
 const express = require('express');
 const bcrypt = require('bcrypt');
+const path = require('path');
 const pool = require('../database/db');
 const { authenticateToken, doubleCsrfProtection } = require('../middleware/auth');
+const upload = require('../middleware/upload');
 
 const router = express.Router();
 
@@ -67,7 +69,7 @@ router.get('/shops/:id/products', async (req, res) => {
 router.get('/profile', authenticateToken, async (req, res) => {
     try {
         const { rows } = await pool.query(
-            `SELECT id, email, company_name, phone, address, tax_id, user_type, verified, created_at
+            `SELECT id, email, company_name, phone, address, tax_id, user_type, verified, created_at, avatar_url
              FROM users WHERE id = $1`,
             [req.user.id]
         );
@@ -75,6 +77,30 @@ router.get('/profile', authenticateToken, async (req, res) => {
         res.json(rows[0]);
     } catch (error) {
         res.status(500).json({ error: 'Failed to fetch profile' });
+    }
+});
+
+// Upload profile avatar
+router.post('/profile/avatar', upload.single('avatar', 'avatars'), doubleCsrfProtection, authenticateToken, async (req, res) => {
+    try {
+        const file = req.files && req.files[0];
+        if (!file) return res.status(400).json({ error: 'No file uploaded' });
+
+        const useCloudinary = !!(process.env.CLOUDINARY_CLOUD_NAME &&
+            process.env.CLOUDINARY_API_KEY && process.env.CLOUDINARY_API_SECRET);
+
+        const avatarUrl = useCloudinary
+            ? file.secure_url
+            : `/uploads/avatars/${path.basename(file.path)}`;
+
+        const { rows } = await pool.query(
+            'UPDATE users SET avatar_url = $1 WHERE id = $2 RETURNING avatar_url',
+            [avatarUrl, req.user.id]
+        );
+        res.json({ avatar_url: rows[0].avatar_url });
+    } catch (error) {
+        console.error('Avatar upload error:', error);
+        res.status(500).json({ error: 'Failed to upload avatar' });
     }
 });
 

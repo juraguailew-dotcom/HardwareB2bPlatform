@@ -6,7 +6,10 @@ const express = require('express');
 const cors = require('cors');
 const http = require('http');
 const cookieParser = require('cookie-parser');
+const helmet = require('helmet');
+const compression = require('compression');
 const { doubleCsrfProtection, generateToken } = require('./middleware/auth');
+const errorHandler = require('./middleware/errorHandler');
 
 // Create express app
 const app = express();
@@ -17,6 +20,22 @@ const server = http.createServer(app);
 
 // ============= MIDDLEWARE =============
 // These MUST come before any routes!
+app.use(helmet({
+    contentSecurityPolicy: {
+        directives: {
+            defaultSrc: ["'self'"],
+            styleSrc: ["'self'", "'unsafe-inline'", "https:"],
+            scriptSrc: ["'self'"],
+            imgSrc: ["'self'", "data:", "https:", "http:", process.env.CLIENT_URL || "http://localhost:3000"],
+            fontSrc: ["'self'", "https:", "data:"],
+            connectSrc: ["'self'", "http:", "https:", process.env.CLIENT_URL || "http://localhost:3000"],
+            frameAncestors: ["'self'"],
+            objectSrc: ["'none'"],
+            upgradeInsecureRequests: [],
+        },
+    },
+}));
+app.use(compression());
 app.use(cookieParser());
 app.use(cors({
     origin: process.env.CLIENT_URL || 'http://localhost:3000',
@@ -24,19 +43,16 @@ app.use(cors({
 }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use('/uploads', express.static(require('path').join(__dirname, 'uploads')));
-app.use('/uploads/chat', express.static(require('path').join(__dirname, 'uploads', 'chat')));
+app.use('/uploads', express.static(require('path').join(__dirname, 'uploads'), {
+    maxAge: '1d',
+    etag: true
+}));
+app.use('/uploads/chat', express.static(require('path').join(__dirname, 'uploads', 'chat'), {
+    maxAge: '1d',
+    etag: true
+}));
 app.use('/api/auth', authRateLimit);
 app.use('/api', apiRateLimit);
-
-// Debug middleware to log all requests (helpful for debugging)
-app.use((req, res, next) => {
-    console.log(`${req.method} ${req.url}`);
-    if (req.method === 'POST' || req.method === 'PUT') {
-        console.log('Request body:', req.body);
-    }
-    next();
-});
 
 // ============= IMPORT ROUTES =============
 const authRoutes = require('./routes/auth');
@@ -107,14 +123,8 @@ app.use((req, res) => {
     res.status(404).json({ error: 'Route not found' });
 });
 
-// Error handling middleware
-app.use((err, req, res, next) => {
-    console.error('Server error:', err.stack);
-    res.status(500).json({ 
-        error: 'Something went wrong!',
-        message: process.env.NODE_ENV === 'development' ? err.message : undefined
-    });
-});
+// Centralized error handler
+app.use(errorHandler);
 
 // ============= START SERVER =============
 const PORT = process.env.PORT || 5000;

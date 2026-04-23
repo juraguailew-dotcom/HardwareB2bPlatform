@@ -7,6 +7,9 @@ const { notifyVerification, notifyDisputeUpdate } = require('../utils/notifyAll'
 
 const router = express.Router();
 
+// Apply CSRF protection to all admin routes
+router.use(doubleCsrfProtection);
+
 // ==================== ADMIN PROFILE ====================
 router.get('/profile', authenticateToken, isAdmin, async (req, res) => {
     try {

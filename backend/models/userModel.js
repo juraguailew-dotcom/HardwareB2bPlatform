@@ -28,7 +28,7 @@ const User = {
             `INSERT INTO users 
             (email, password_hash, user_type, company_name, phone, address, tax_id, verified) 
             VALUES ($1, $2, $3, $4, $5, $6, $7, $8) 
-            RETURNING id, email, user_type, company_name`,
+            RETURNING id, email, user_type, company_name, phone, address, verified`,
             [email, password_hash, user_type, company_name, phone, address, tax_id, false]
         );
         

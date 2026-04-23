@@ -43,7 +43,7 @@ flowchart TD
         I3["Phase 3 — Engagement\n(Favorites · Bulk Templates · Real-Time Chat)"]
         I4["Phase 4 — Analytics\n(Sales Analytics · Fulfillment · PDF Invoices)"]
         I5["Phase 5 — Admin\n(User Verification · Disputes · Platform Settings)"]
-        I6["Phase 6 — Payments ⏳\n(Stripe Integration — Pending Activation)"]
+        I6["Phase 6 — Payments 🔄\n(Stripe Integration — 20% Complete)"]
         I1 --> I2 --> I3 --> I4 --> I5 --> I6
     end
 
@@ -77,7 +77,7 @@ flowchart TD
     subgraph MAINT["🔧 7. MAINTENANCE"]
         M1["Monitor Health\n(GET /health · Server Logs)"]
         M2["Bug Fixes & Patches\n(Resolve Issues · Security Updates)"]
-        M3["Pending Items\n(Activate Stripe · Admin Routes · Remove Debug Logs)"]
+        M3["Pending Items\n(Activate Stripe · AWS Deployment · Remove Debug Logs)"]
         M4["Future Enhancements\n(Email Notifications · Mobile App · Multi-Currency)"]
         M1 --> M2 --> M3 --> M4
     end
@@ -117,9 +117,9 @@ flowchart TD
 | 1. Planning | Scope, stakeholders, goals, constraints | ✅ Complete |
 | 2. Requirements | Functional + non-functional, role-based access | ✅ Complete |
 | 3. System Design | Architecture, ERD, API design, security | ✅ Complete |
-| 4. Implementation | 6 development phases (Core → Payments) | 🔄 Phase 6 Pending |
+| 4. Implementation | 6 development phases (Core → Payments) | 🔄 Phases 1-5 Complete, Phase 6 (20% Complete) |
 | 5. Testing | Unit, API, integration, security, UAT | 🔄 In Progress |
-| 6. Deployment | AWS infrastructure, migrations, CI/CD | ⏳ Upcoming |
+| 6. Deployment | AWS infrastructure, migrations, CI/CD | ⏳ Upcoming (10% Complete) |
 | 7. Maintenance | Monitoring, bug fixes, enhancements | ⏳ Upcoming |
 
 ---

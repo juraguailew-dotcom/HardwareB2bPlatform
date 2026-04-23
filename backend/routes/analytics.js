@@ -243,37 +243,37 @@ router.get('/spending', authenticateToken, async (req, res) => {
                 COALESCE(SUM(total_amount), 0) as total_spent,
                 COALESCE(AVG(total_amount), 0) as avg_order_value,
                 COUNT(DISTINCT shop_id) as unique_shops
-             FROM orders
-             WHERE contractor_id = $1 AND order_date >= NOW() - ($2 || ' days')::INTERVAL`,
+             FROM requests
+             WHERE contractor_id = $1 AND request_date >= NOW() - ($2 || ' days')::INTERVAL`,
             [req.user.id, intervalDays]
         );
 
         const spendingOverTime = await pool.query(
-            `SELECT DATE_TRUNC('day', order_date) as date,
+            `SELECT DATE_TRUNC('day', request_date) as date,
                     COUNT(*) as orders,
                     SUM(total_amount) as spent
-             FROM orders
-             WHERE contractor_id = $1 AND order_date >= NOW() - ($2 || ' days')::INTERVAL
-             GROUP BY DATE_TRUNC('day', order_date)
+             FROM requests
+             WHERE contractor_id = $1 AND request_date >= NOW() - ($2 || ' days')::INTERVAL
+             GROUP BY DATE_TRUNC('day', request_date)
              ORDER BY date ASC`,
             [req.user.id, intervalDays]
         );
 
         const topShops = await pool.query(
-            `SELECT u.company_name, COUNT(o.id) as orders, SUM(o.total_amount) as total_spent
-             FROM orders o JOIN users u ON o.shop_id = u.id
-             WHERE o.contractor_id = $1 AND o.order_date >= NOW() - ($2 || ' days')::INTERVAL
+            `SELECT u.company_name, COUNT(r.id) as orders, SUM(r.total_amount) as total_spent
+             FROM requests r JOIN users u ON r.shop_id = u.id
+             WHERE r.contractor_id = $1 AND r.request_date >= NOW() - ($2 || ' days')::INTERVAL
              GROUP BY u.id, u.company_name
              ORDER BY total_spent DESC LIMIT 5`,
             [req.user.id, intervalDays]
         );
 
         const topProducts = await pool.query(
-            `SELECT p.name, p.category, SUM(oi.quantity) as qty, SUM(oi.subtotal) as total_spent
-             FROM order_items oi
-             JOIN products p ON oi.product_id = p.id
-             JOIN orders o ON oi.order_id = o.id
-             WHERE o.contractor_id = $1 AND o.order_date >= NOW() - ($2 || ' days')::INTERVAL
+            `SELECT p.name, p.category, SUM(ri.quantity) as qty, SUM(ri.subtotal) as total_spent
+             FROM request_items ri
+             JOIN products p ON ri.product_id = p.id
+             JOIN requests r ON ri.request_id = r.id
+             WHERE r.contractor_id = $1 AND r.request_date >= NOW() - ($2 || ' days')::INTERVAL
              GROUP BY p.id, p.name, p.category
              ORDER BY total_spent DESC LIMIT 6`,
             [req.user.id, intervalDays]
@@ -281,8 +281,8 @@ router.get('/spending', authenticateToken, async (req, res) => {
 
         const statusBreakdown = await pool.query(
             `SELECT status, COUNT(*) as count
-             FROM orders
-             WHERE contractor_id = $1 AND order_date >= NOW() - ($2 || ' days')::INTERVAL
+             FROM requests
+             WHERE contractor_id = $1 AND request_date >= NOW() - ($2 || ' days')::INTERVAL
              GROUP BY status`,
             [req.user.id, intervalDays]
         );
@@ -312,26 +312,26 @@ router.get('/sales/export', authenticateToken, isShop, async (req, res) => {
 
         const [orders, products, customers] = await Promise.all([
             pool.query(
-                `SELECT o.id, o.order_date, o.total_amount, o.status, u.company_name as customer
-                 FROM orders o JOIN users u ON o.contractor_id = u.id
-                 WHERE o.shop_id = $1 AND o.order_date >= NOW() - ($2 || ' days')::INTERVAL
-                 ORDER BY o.order_date DESC`,
+                `SELECT r.id, r.request_date as order_date, r.total_amount, r.status, u.company_name as customer
+                 FROM requests r JOIN users u ON r.contractor_id = u.id
+                 WHERE r.shop_id = $1 AND r.request_date >= NOW() - ($2 || ' days')::INTERVAL
+                 ORDER BY r.request_date DESC`,
                 [req.user.id, intervalDays]
             ),
             pool.query(
-                `SELECT p.name, SUM(oi.quantity) as qty_sold, COALESCE(SUM(oi.subtotal),0) as revenue
-                 FROM order_items oi
-                 JOIN products p ON oi.product_id = p.id
-                 JOIN orders o ON oi.order_id = o.id
-                 WHERE o.shop_id = $1 AND o.order_date >= NOW() - ($2 || ' days')::INTERVAL
+                `SELECT p.name, SUM(ri.quantity) as qty_sold, COALESCE(SUM(ri.subtotal),0) as revenue
+                 FROM request_items ri
+                 JOIN products p ON ri.product_id = p.id
+                 JOIN requests r ON ri.request_id = r.id
+                 WHERE r.shop_id = $1 AND r.request_date >= NOW() - ($2 || ' days')::INTERVAL
                  GROUP BY p.id, p.name ORDER BY revenue DESC LIMIT 20`,
                 [req.user.id, intervalDays]
             ),
             pool.query(
-                `SELECT u.company_name, COUNT(o.id) as orders, COALESCE(SUM(o.total_amount),0) as total_spent
-                 FROM orders o JOIN users u ON o.contractor_id = u.id
-                 WHERE o.shop_id = $1 AND o.status != 'cancelled'
-                   AND o.order_date >= NOW() - ($2 || ' days')::INTERVAL
+                `SELECT u.company_name, COUNT(r.id) as orders, COALESCE(SUM(r.total_amount),0) as total_spent
+                 FROM requests r JOIN users u ON r.contractor_id = u.id
+                 WHERE r.shop_id = $1 AND r.status != 'cancelled'
+                   AND r.request_date >= NOW() - ($2 || ' days')::INTERVAL
                  GROUP BY u.id, u.company_name ORDER BY total_spent DESC LIMIT 10`,
                 [req.user.id, intervalDays]
             ),
@@ -370,17 +370,17 @@ router.post('/sales/report', authenticateToken, isShop, async (req, res) => {
             `SELECT COUNT(*) as order_count, COALESCE(SUM(total_amount),0) as total_revenue,
                     COUNT(DISTINCT contractor_id) as unique_customers,
                     COALESCE(AVG(total_amount),0) as avg_order_value
-             FROM orders WHERE shop_id = $1 AND status != 'cancelled'
-               AND order_date >= NOW() - ($2 || ' days')::INTERVAL`,
+             FROM requests WHERE shop_id = $1 AND status != 'cancelled'
+               AND request_date >= NOW() - ($2 || ' days')::INTERVAL`,
             [req.user.id, intervalDays]
         );
         const t = totals.rows[0];
 
         const topProducts = await pool.query(
-            `SELECT p.name, COALESCE(SUM(oi.subtotal),0) as revenue
-             FROM order_items oi JOIN products p ON oi.product_id = p.id
-             JOIN orders o ON oi.order_id = o.id
-             WHERE o.shop_id = $1 AND o.order_date >= NOW() - ($2 || ' days')::INTERVAL
+            `SELECT p.name, COALESCE(SUM(ri.subtotal),0) as revenue
+             FROM request_items ri JOIN products p ON ri.product_id = p.id
+             JOIN requests r ON ri.request_id = r.id
+             WHERE r.shop_id = $1 AND r.request_date >= NOW() - ($2 || ' days')::INTERVAL
              GROUP BY p.name ORDER BY revenue DESC LIMIT 5`,
             [req.user.id, intervalDays]
         );
