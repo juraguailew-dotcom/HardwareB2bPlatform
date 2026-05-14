@@ -1,4 +1,4 @@
-# HardwareB2B Platform — Entity Relationship Diagram
+6# HardwareB2B Platform — Entity Relationship Diagram
 
 ```mermaid
 erDiagram
